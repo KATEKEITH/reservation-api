@@ -9,7 +9,7 @@
 - Vanilla JS
 - Spring
 - Apache Kafka
-- H2 + Apache Cassandra (-ing)
+- H2 + Apache Cassandra
 
 ## Usage
 
