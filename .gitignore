@@ -1,0 +1,21 @@
+# 
+/src/main/resources/application.properties
+.classpath
+.project
+.settings
+
+DBConfig.java
+
+# Package Files #
+*.jar
+
+
+# Compliled files
+target
+target/
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+.idea
+*.iml
+

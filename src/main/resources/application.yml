@@ -1,0 +1,16 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    # platform: h2
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ""
+    url: jdbc:mysql://localhost:3306/reservations?useUnicode=true&characterEncoding=utf8
+    # initialize-mode: always
+kafka:
+  bootstrapAddress: localhost:9092
+  groupId: test
+message:
+  topic:
+    name: click
