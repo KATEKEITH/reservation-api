@@ -2,7 +2,7 @@
 
 - 타임라인 만들기 프로젝트 백엔드
 - 라이선스 : MIT
-- 프론트엔드 저장소 : <https://github.com/tuguri8/d2-timeline-ui>
+- 프론트엔드 저장소 : 
 
 ## 개발환경
 
