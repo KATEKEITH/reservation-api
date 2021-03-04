@@ -1,6 +1,6 @@
 package kr.or.connect.dao;
 
-import static kr.or.connect.dao.ReservationSqls.*;
+import static kr.or.connect.dao.sql.ReservationSqls.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,6 +32,9 @@ public class DisplayinfoDao {
     }
 
     public List<Displayinfo> selectAll(Integer categoryId, Integer start, Integer limit) {
+
+        System.out.println(">>>> selectAll:categoryId" + categoryId.getClass().getName());
+
         Map<String, Integer> params = new HashMap<>();
         params.put("categoryId", categoryId);
         params.put("start", start);
@@ -40,7 +43,7 @@ public class DisplayinfoDao {
         if (categoryId == null || categoryId == 0) {
             return jdbc.query(SELECT_ALL_PRODUCT, params, rowMapper);
         } else {
-            return jdbc.query(SELECT_DISPLAYINFO_BY_CATEGORY_ID, params, rowMapper);
+            return jdbc.query(selectByCategoryId(), params, rowMapper);
         }
     }
 

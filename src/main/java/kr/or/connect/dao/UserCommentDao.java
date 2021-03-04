@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
-import static kr.or.connect.dao.ReservationSqls.*;
-
+import static kr.or.connect.dao.sql.ReservationSqls.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

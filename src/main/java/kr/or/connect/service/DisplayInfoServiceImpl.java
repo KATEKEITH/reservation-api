@@ -18,6 +18,9 @@ public class DisplayInfoServiceImpl implements DisplayInfoServie {
 
     @Override
     public List<Displayinfo> getProducts(Integer categoryId, Integer start) {
+
+        System.out.println(">>>> DisplayInfoServiceImpl:categoryId" + categoryId.getClass().getName());
+
         List<Displayinfo> list = displayInfoDao.selectAll(categoryId, start, DisplayInfoServie.LIMIT);
         return list;
     }
