@@ -18,6 +18,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+// MvcConfig는 스프링 MVC설정 파일입니다.
+// 스프링 MVC설정파일에는 @EnableWebMvc가 붙어있어야 합니다. 
+// @EnableWebMvc는 어노테이션 기반의 스프링 MVC를 구성할 때 필요한 Bean들을 자동으로 구성해주는 역할을 수행합니다. 
+// xml로 설정할 때는 <mvc:annontation-driven/>이라는 설정을 하게 되는데 같은 설정이라고 생각하면 됩니다.
+
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
@@ -48,22 +53,10 @@ public class MvcConfig implements WebMvcConfigurer {
                 .build().apiInfo(apiInfo()).useDefaultResponseMessages(false);
     }
 
-    /**
-     * API Info
-     */
-    // private ApiInfo apiInfo() {
-    // Contact contact = new Contact("강경미", "https://www.edwith.org",
-    // "carami@edwith.org");
-    // ApiInfo apiInfo = new ApiInfo("Swagger Sample", "APIs Sample", "Sample
-    // Doc0.1v", "", contact,
-    // "This sentence will be display.", "/");
-    // return apiInfo;
-    // }
-
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Decide REST API")
                 .description("This documents describes about decide version 7 REST API")
-                .contact(new Contact("Kim Young Hoi", "kimyhcj.tistory.com", "kimyhcj@gmail.com")).version("v1")
+                .contact(new Contact("SIM EUN JI", "https://velog.io/@sbm3539", "simbomi06@gmail.com")).version("v1")
                 .build();
     }
 
