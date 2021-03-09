@@ -1,6 +1,6 @@
 # reservation-api
 
--  만들기 프로젝트 백엔드
+- 예약서비스 및 사용자 추적 대시보드 만들기 프로젝트 백엔드
 - 라이선스 : MIT
 - 프론트엔드 저장소 : <https://github.com/KATEKEITH/reservation-ui>
 
@@ -28,7 +28,8 @@ bin/kafka-server-start.sh config/server.properties
 
 ## User Data collection Architecture
 
-![POSTING_ARCHITECTURE](https://i.imgur.com/AjF1IOa.png)
+![image](https://user-images.githubusercontent.com/46472768/110494914-61449100-8137-11eb-9132-4ba2a2578611.png)
+
 
 ## Used Open Source
 
