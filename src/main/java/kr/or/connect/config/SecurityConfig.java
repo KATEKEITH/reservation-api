@@ -23,7 +23,7 @@ import kr.or.connect.security.CustomUserDetailsService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    CustomUserDetailsService costomUserDetailsService;
+    CustomUserDetailsService customUserDetailsService;
 
     // public void configure(WebSecurity web) 메소드를 오버라이딩 하는 이유s는
     // 인증/인가가 필요 없는 경로를 설정할 필요가 있기 때문입니다.
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(costomUserDetailsService);
+        auth.userDetailsService(customUserDetailsService);
     }
 
     //
