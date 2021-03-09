@@ -1,13 +1,18 @@
 package kr.or.connect.config;
 
+import org.apache.tinkerpop.gremlin.process.computer.GraphComputer.Exceptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import kr.or.connect.security.CustomUserDetailsService;
 
 // 스프링 시큐리티를 이용해 로그인/로그아웃/인증/인가 등을 처리하기 위한 설정 파일입니다.
 // @EnableWebSecurity가 붙어 있을 경우 스프링 시큐리티를 구성하는 기본적인 빈(Bean)들을 자동으로 구성해줍니다.
@@ -16,6 +21,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    CustomUserDetailsService costomUserDetailsService;
 
     // public void configure(WebSecurity web) 메소드를 오버라이딩 하는 이유s는
     // 인증/인가가 필요 없는 경로를 설정할 필요가 있기 때문입니다.
@@ -27,24 +35,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/webjars/**");
     }
 
-    // protected void configure(HttpSecurity http) 메소드를 오버라이딩 한다는 것은
-    // 인증/인가에 대한 설정을 한다는 의미입니다.
-
-    // http.csrf().disable()는 csrf()라는 기능을 끄라는 설정입니다.
-    // csrf는 보안 설정 중 post방식으로 값을 전송할 때 token을 사용해야하는 보안 설정입니다.
-    // csrf은 기본으로 설정되어 있는데요.
-    // csrf를 사용하게 되면 보안성은 높아지지만 개발초기에는 불편함이 있다는 단점이 있습니다.
-    // 그래서 csrf 기능을 끄도록 한 것입니다.
-
-    // disable()메소드는 http(여기에선 HttpSecurity)를 리턴합니다.
-
-    // 이말은 disable().authorizeRequests()는 http.authoriazeRequests()와 같은 의미를 가집니다.
-    // 위의 설정은 "/"와 "/main" 경로는 누구나 접근(permitAll)할 수 있도록 한 것이며
-    // 그외의 경로는 인증을 한 후에만 접근할 수 있다는 것을 의미합니다.
+    // WebSecurityConfigurerAdapter가 가지고 있는 void
+    // configure(AuthenticationManagerBuilder auth)를 오버라이딩 하고 있습니다.
+    // 해당 메소드를 오버라이딩 한 후 UserDetailsService인터페이스를 구현하고 있는 객체를
+    // auth.userDetailsService()메소드의 인자로 전달하고
+    // 있습니다.
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(costomUserDetailsService);
+    }
+
+    //
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/", "/main").permitAll().anyRequest().authenticated();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/", "/main", "/memembers/loginerror", "/members/joinform", "/members/join",
+                        "/members/welcome")
+                .permitAll().antMatchers("/securepage", "/members/**").hasRole("USER").anyRequest().authenticated()
+                .and().formLogin().loginPage("/members/loginform").usernameParameter("userId")
+                .passwordParameter("password").loginProcessingUrl("/authenticate")
+                .failureForwardUrl("/members/loginerror?login_error=1").defaultSuccessUrl("/", true).permitAll().and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
     // 패스워드 인코더를 빈으로 등록합니다. 암호를 인코딩하거나,
