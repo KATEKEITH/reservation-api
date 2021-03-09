@@ -1,6 +1,6 @@
 # reservation-api
 
-- 타임라인 만들기 프로젝트 백엔드
+-  만들기 프로젝트 백엔드
 - 라이선스 : MIT
 - 프론트엔드 저장소 : <https://github.com/KATEKEITH/reservation-ui>
 
