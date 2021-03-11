@@ -12,7 +12,8 @@ import kr.or.connect.config.DBConfig;
 
 @Configuration
 @Import({ DBConfig.class })
-@ComponentScan(basePackages = { "kr.or.connect.dao", "kr.or.connect.service", "kr.or.connect.test" })
+@ComponentScan(basePackages = { "kr.or.connect.dao", "kr.or.connect.service", "kr.or.connect.test",
+        "kr.or.connect.security" })
 public class ApplicationConfig {
 
 }
