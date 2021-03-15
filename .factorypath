@@ -18,6 +18,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/protobuf/protobuf-java/3.11.4/protobuf-java-3.11.4.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/spring-orm/5.2.3.RELEASE/spring-orm-5.2.3.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/junit/jupiter/junit-jupiter-engine/5.5.2/junit-jupiter-engine-5.5.2.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/junit/platform/junit-platform-engine/1.5.2/junit-platform-engine-1.5.2.jar" enabled="true" runInBatchMode="false"/>
