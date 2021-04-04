@@ -11,7 +11,7 @@ public class UserRoleEntity {
     }
 
     public String getUserLoginId() {
-        return this.userLoginId;
+        return userLoginId;
     }
 
     public void setUserLoginId(String userLoginId) {
@@ -19,7 +19,7 @@ public class UserRoleEntity {
     }
 
     public String getRoleName() {
-        return this.roleName;
+        return roleName;
     }
 
     public void setRoleName(String roleName) {

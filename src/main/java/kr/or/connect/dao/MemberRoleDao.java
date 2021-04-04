@@ -1,5 +1,6 @@
 package kr.or.connect.dao;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import kr.or.connect.dao.sql.MemberRoleDaoSqls;
-import kr.or.connect.dto.MemberRole;
+// import kr.or.connect.dto.MemberRole;
+import kr.or.connect.dto.member.MemberRole;
 
 @Repository
 public class MemberRoleDao {
@@ -28,10 +30,21 @@ public class MemberRoleDao {
     }
 
     public List<MemberRole> getRolesByEmail(String email) {
+        System.out.println("getRolesByEmail" + email);
         Map<String, Object> map = new HashMap<>();
         map.put("email", email);
-
+        System.out.println(">>>>>>>>s");
         return jdbc.query(MemberRoleDaoSqls.SELECT_ALL_BY_EMAIL, map, rowMapper);
+    }
+
+    public void addAdminRole(Long memberId) {
+        Map<String, Object> map = Collections.singletonMap("memberId", memberId);
+        jdbc.update(MemberRoleDaoSqls.INSERT_ADMIN_ROLE(), map);
+    }
+
+    public void addUserRole(Long memberId) {
+        Map<String, Object> params = Collections.singletonMap("memberId", memberId);
+        jdbc.update(MemberRoleDaoSqls.INSERT_USER_ROLE(), params);
     }
 
 }

@@ -25,7 +25,7 @@ public class Member {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -33,7 +33,7 @@ public class Member {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -41,7 +41,7 @@ public class Member {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -49,7 +49,7 @@ public class Member {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -57,7 +57,7 @@ public class Member {
     }
 
     public Date getCreateDate() {
-        return this.createDate;
+        return createDate;
     }
 
     public void setCreateDate(Date createDate) {
@@ -65,11 +65,17 @@ public class Member {
     }
 
     public Date getModifyDate() {
-        return this.modifyDate;
+        return modifyDate;
     }
 
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Member [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", createDate="
+                + createDate + ", modifyDate=" + modifyDate + "]";
     }
 
 }

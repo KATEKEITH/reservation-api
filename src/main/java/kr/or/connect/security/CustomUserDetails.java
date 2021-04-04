@@ -38,8 +38,8 @@ public class CustomUserDetails implements UserDetails {
         return isEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
+    public void setEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     @Override
@@ -47,8 +47,8 @@ public class CustomUserDetails implements UserDetails {
         return isAccountNonExpired;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        isAccountNonExpired = accountNonExpired;
+    public void setAccountNonExpired(boolean isAccountNonExpired) {
+        this.isAccountNonExpired = isAccountNonExpired;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class CustomUserDetails implements UserDetails {
         return isAccountNonLocked;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        isAccountNonLocked = accountNonLocked;
+    public void setAccountNonLocked(boolean isAccountNonLocked) {
+        this.isAccountNonLocked = isAccountNonLocked;
     }
 
     @Override
@@ -65,8 +65,8 @@ public class CustomUserDetails implements UserDetails {
         return isCredentialsNonExpired;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        isCredentialsNonExpired = credentialsNonExpired;
+    public void setCredentialsNonExpired(boolean isCredentialsNonExpired) {
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
     }
 
     @Override
@@ -77,4 +77,5 @@ public class CustomUserDetails implements UserDetails {
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
+
 }

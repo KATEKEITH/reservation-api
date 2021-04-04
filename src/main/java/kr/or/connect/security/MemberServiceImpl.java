@@ -4,21 +4,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.or.connect.dao.MemberDao;
+import kr.or.connect.dao.MemberRoleDao;
+
+import kr.or.connect.security.UserEntity;
+import kr.or.connect.security.UserRoleEntity;
+
+import kr.or.connect.dto.member.Member;
+import kr.or.connect.dto.member.MemberRole;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    @Override
-    public UserEntity getUser(String loginUserId) {
-        return new UserEntity("carami", "$2a$10$G/ADAGLU3vKBd62E6GbrgetQpEKu2ukKgiDR5TWHYwrem0cSv6Z8m");
+    private final MemberDao memberDao;
+    private final MemberRoleDao memberRoleDao;
+
+    public MemberServiceImpl(MemberDao memberDao, MemberRoleDao memberRoleDao) {
+        this.memberDao = memberDao;
+        this.memberRoleDao = memberRoleDao;
     }
 
     @Override
+    @Transactional
+    public UserEntity getUser(String loginUserId) {
+        Member member = memberDao.getMemberByEmail(loginUserId);
+        System.out.println(">>> MemberServiceImpl-getUser" + loginUserId + member.getEmail());
+        return new UserEntity(member.getEmail(), member.getPassword());
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void addMember(Member member, boolean admin) {
+
+        memberDao.addMember(member);
+
+        Member seletedMember = memberDao.getMemberByEmail(member.getEmail());
+        Long memberId = seletedMember.getId();
+
+        if (admin) {
+            memberRoleDao.addAdminRole(memberId);
+        }
+        memberRoleDao.addUserRole(memberId);
+
+    }
+
+    @Override
+    @Transactional
     public List<UserRoleEntity> getUserRoles(String loginUserId) {
+        // TODO Auto-generated method stub
+        System.out.println(">>> MemberServiceImpl-getUserRoles" + loginUserId);
+        List<MemberRole> memberRoles = memberRoleDao.getRolesByEmail(loginUserId);
 
         List<UserRoleEntity> list = new ArrayList<>();
-        list.add(new UserRoleEntity("carami", "ROLE_USER"));
+
+        for (MemberRole memberRole : memberRoles) {
+            list.add(new UserRoleEntity(loginUserId, memberRole.getRoleName()));
+        }
         return list;
+    }
+
+    @Override
+    public Member getMemberByEmail(String email) {
+        return memberDao.getMemberByEmail(email);
     }
 
 }

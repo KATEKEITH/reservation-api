@@ -13,7 +13,7 @@ uri="http://java.sun.com/jsp/jstl/fmt"%>
         <form method="post" action="/reservation/authenticate">
           <div>
             <label>ID</label>
-            <input type="text" name="userId" />
+            <input type="text" name="username" />
           </div>
           <div>
             <label>암호</label>

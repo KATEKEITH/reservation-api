@@ -32,4 +32,15 @@ public class MemberDao {
 
         return jdbc.queryForObject(MemberDaoSqls.SELECT_ALL_BY_EMAIL, map, rowMapper);
     }
+
+    public void addMember(Member member) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", member.getName());
+        params.put("password", member.getPassword());
+        params.put("email", member.getEmail());
+        params.put("createDate", member.getCreateDate());
+        params.put("modifyDate", member.getModifyDate());
+
+        jdbc.update(MemberDaoSqls.INSERT_MEMBER, params);
+    }
 }
