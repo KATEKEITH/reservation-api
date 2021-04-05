@@ -50,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/", "/main", "/memembers/loginerror", "/members/joinform", "/members/join",
+                .antMatchers("/", "/main", "/members/loginerror", "/members/joinform", "/members/join",
                         "/members/welcome")
                 .permitAll().antMatchers("/securepage", "/members/**").hasRole("USER").anyRequest().authenticated()
-                .and().formLogin().loginPage("/members/loginform").usernameParameter("userId")
+                .and().formLogin().loginPage("/members/loginform").usernameParameter("username")
                 .passwordParameter("password").loginProcessingUrl("/authenticate")
                 .failureForwardUrl("/members/loginerror?login_error=1").defaultSuccessUrl("/", true).permitAll().and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/");
