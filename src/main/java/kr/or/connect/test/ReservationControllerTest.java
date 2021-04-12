@@ -18,9 +18,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.jayway.jsonpath.JsonPath;
 
 import org.hamcrest.Matcher;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -46,110 +46,74 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import kr.or.connect.ApplicationConfig;
-import kr.or.connect.config.WebMvcContextConfiguration;
+import kr.or.connect.config.WebAppInitializer;
+
 import kr.or.connect.controller.ReservationController;
 import kr.or.connect.dao.DisplayinfoDao;
 import kr.or.connect.dto.Displayinfo;
 import kr.or.connect.service.DisplayInfoServie;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
-import com.jayway.jsonpath.JsonPath;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.is;
 
 import javax.sql.DataSource;
 import javax.xml.stream.events.Comment;
 
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import javassist.NotFoundException;
+
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { WebMvcContextConfiguration.class, ApplicationConfig.class })
+@ContextConfiguration(classes = { WebAppInitializer.class, ApplicationConfig.class })
 public class ReservationControllerTest {
 
     @InjectMocks
     public ReservationController reservationController;
 
-    @Mock
-    DisplayInfoServie DisplayInfoServie;
-
     private MockMvc mockMvc;
 
-    @Autowired
-    private DisplayinfoDao dao;
-
     @BeforeEach
-    public void createController() {
+    public void setup() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
     }
 
     @Test
-    @DisplayName("getDisplayInfo - controllet 테스트")
+    @DisplayName("상품 목록 조회 테스트")
     public void get_well_product_when_categoryId_notNull() throws Exception {
 
-        // given
-        Integer categoryId = 1;
-        int start = 2;
+        ResultActions result = mockMvc
+                .perform(get("/api/displayinfos?categoryId=2&start=1").accept(MediaType.APPLICATION_JSON));
 
-        MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("categoryId", Integer.toString(categoryId));
-        paramMap.add("start", Integer.toString(start));
-
-        // when
-        RequestBuilder reqBuilder = MockMvcRequestBuilders.get("/api/displayinfos").params(paramMap)
-                .contentType(MediaType.APPLICATION_JSON);
-
-        mockMvc.perform(reqBuilder).andExpect(handler().handlerType(ReservationController.class))
-                .andExpect(status().isOk()).andDo(print());
-
-        // then
-        verify(DisplayInfoServie).getProducts(categoryId, start);
+        result.andDo(print()).andExpect(status().isOk())
+                // .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(handler().handlerType(ReservationController.class))
+                .andExpect(handler().methodName("getDisplayInfo"));
+        // .andExpect(jsonPath("$[0]['products']").exists());
+        // .andExpect(jsonPath("$.success", is(true)))
+        // .andExpect(jsonPath("$.products").isArray());
+        // .andExpect(jsonPath("$.reservationUserComments.length()", is(5)));
     }
 
     @Test
-    @DisplayName("getDisplayInfo - DAO 테스트")
-    public void get_well_product_when_categoryId_null() throws Exception {
+    @DisplayName("상품 조회 실패 테스트 (존재하지 않는 ID)")
+    public void get_well_comment_when_categoryId_not_exist() throws Exception {
 
-        // given
-        Integer categoryId = null;
-        int start = 1;
+        ResultActions result = mockMvc
+                .perform(get("/api/displayinfos?categoryId=7&start=1").accept(MediaType.APPLICATION_JSON));
 
-        JSONParser parser = new JSONParser();
-        File file = new File("src/main/resources/products.json");
-        JSONObject jObj_2 = (JSONObject) parser
-                .parse(new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8")));
-        List<Displayinfo> list = (List<Displayinfo>) jObj_2.get("products");
+        result.andDo(print()).andExpect(status().is4xxClientError())
+                .andExpect(handler().handlerType(ReservationController.class))
+                .andExpect(handler().methodName("getDisplayInfo"));
 
-        // then
-        Assertions.assertEquals(list.size(), dao.selectAll(categoryId, start, null).size());
-    }
-
-    @Test
-    @DisplayName("[예외발생확인] getDisplayInfo - categoryId가 6일 때 🎭")
-    public void exception_test() throws Exception {
-
-        // given
-        Integer categoryId = 6;
-        int start = 1;
-
-        // then
-        assertThrows(IOException.class, () -> {
-            reservationController.getDisplayInfo(categoryId, start);
-        });
-    }
-
-    @Test
-    @DisplayName("[예외발생확인] getComments - productId가 0 일때 📃")
-    public void get_well_comment_when_productId_null() throws Exception {
-
-        // given
-        Integer productId = 0;
-        int start = 1;
-
-        // then
-        assertThrows(IOException.class, () -> {
-            reservationController.getComments(productId, start);
-        });
+        // .andExpect(handler().handlerType(ReservationController.class))
+        // .andExpect(handler().methodName("getDisplayInfo"))
+        // .andExpect(jsonPath("$.success", is(false)))
+        // .andExpect(jsonPath("$.error").exists())
+        // .andExpect(jsonPath("$.error.status", is(404)));
     }
 
 }
