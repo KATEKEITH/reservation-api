@@ -30,7 +30,6 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public UserEntity getUser(String loginUserId) {
         Member member = memberDao.getMemberByEmail(loginUserId);
-        System.out.println(">>> MemberServiceImpl-getUser" + loginUserId + member.getEmail());
         return new UserEntity(member.getEmail(), member.getPassword());
     }
 
@@ -53,8 +52,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public List<UserRoleEntity> getUserRoles(String loginUserId) {
-        // TODO Auto-generated method stub
-        System.out.println(">>> MemberServiceImpl-getUserRoles" + loginUserId);
+
         List<MemberRole> memberRoles = memberRoleDao.getRolesByEmail(loginUserId);
 
         List<UserRoleEntity> list = new ArrayList<>();

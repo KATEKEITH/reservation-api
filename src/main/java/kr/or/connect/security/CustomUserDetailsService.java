@@ -27,23 +27,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 해당 정보를 CustomUserDetails객체에 저장한다.
         UserEntity customUser = userdbService.getUser(loginId);
 
-        System.out.println(">>> CustomUserDetailsService-loadUserByUsername" + loginId + customUser.getLoginUserId());
-        System.out.println("11111111");
         if (customUser == null) {
             throw new UsernameNotFoundException("사용자가 입력한 아이디에 해당하는 사용자를 찾을 수 없습니다.");
         }
-
-        System.out.println("222222222");
 
         CustomUserDetails customUserDetails = new CustomUserDetails();
         customUserDetails.setUsername(customUser.getLoginUserId());
         customUserDetails.setPassword(customUser.getPassword());
 
-        System.out.println("33333333");
-
         List<UserRoleEntity> customRoles = userdbService.getUserRoles(loginId);
 
-        System.out.println("44444444" + customRoles);
         // 로그인 한 사용자의 권한 정보를 GrantedAuthority를 구현하고 있는 SimpleGrantedAuthority객체에 담아
         // 리스트에 추가한다. MemberRole 이름은 "ROLE_"로 시작되야 한다.
         List<GrantedAuthority> authorities = new ArrayList<>();
